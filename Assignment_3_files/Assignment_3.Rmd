@@ -12,7 +12,7 @@ output:
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 
 # load packages
-library(tidyverse) 
+library(tidyverse)
 ```
 
 ###Introduction 
@@ -219,6 +219,7 @@ rankall(`heart attack`, 20)
 tail(rankall(pneumonia, "worst"), 3) 
 tail(rankall(`heart failure`), 10)
 ```
+
 
 
 

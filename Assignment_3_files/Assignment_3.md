@@ -1,19 +1,8 @@
----
-title: "assignment 3"
-author: "DanielH"
-date: "July 7, 2017"
-output:
-  html_document:
-    keep_md: yes
-    theme: readable
-  pdf_document: default
----
+# assignment 3
+DanielH  
+July 7, 2017  
 
-```{r, message=FALSE, warning=FALSE, echo=FALSE}
 
-# load packages
-library(tidyverse) 
-```
 
 ###Introduction 
 
@@ -32,14 +21,12 @@ A description of the variables in each of the files is in the included PDF file 
 
 ##Part 1: plot the 30-day mortality rates for heart attack
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-# read the outcome data into R
-outcome <- read_csv("outcome-of-care-measures.csv")
-```
+
 
 Make a simple histogram of the 30-day death rates from heart attack (column 11 in the outcome dataset)
 
-```{r, message=FALSE, warning=FALSE, fig.align='center', fig.height=4, fig.width=4}
+
+```r
 outcome %>%
   mutate(`Hospital 30-Day Death (Mortality) Rates from Heart Attack` =
           as.numeric(`Hospital 30-Day Death (Mortality) Rates from Heart Attack`)) %>%
@@ -50,6 +37,8 @@ outcome %>%
        x = "mortality rate (%)",
        y = "") 
 ```
+
+<img src="Assignment_3_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 
 ##Part 2: finding the best hospital in a state
@@ -62,8 +51,8 @@ The function should check the validity of its arguments.
 * _If an invalid outcome value is passed_ to best, the function should throw an error via the stop function with the exact _message "invalid outcome"_.
 
 
-```{r, message=FALSE, warning=FALSE}
 
+```r
 # define function
 best <- function(state, outcome) {
 
@@ -92,8 +81,35 @@ best <- function(state, outcome) {
 
 # test function
 best("TX", `heart attack`)
+```
+
+```
+## # A tibble: 1 x 1
+##                           hospital
+##                              <chr>
+## 1 CYPRESS FAIRBANKS MEDICAL CENTER
+```
+
+```r
 best("TX", `heart failure`)
+```
+
+```
+## # A tibble: 1 x 1
+##                     hospital
+##                        <chr>
+## 1 FORT DUNCAN MEDICAL CENTER
+```
+
+```r
 best("MD", pneumonia)
+```
+
+```
+## # A tibble: 1 x 1
+##                           hospital
+##                              <chr>
+## 1 GREATER BALTIMORE MEDICAL CENTER
 ```
 
 
@@ -104,8 +120,8 @@ Write a function called _rankhospital()_ that takes three arguments: the 2-chara
 
 _rankhospital("MD", "heart failure", 5)_ would return a character vector containing the name of the hospital with the 5th lowest 30-day death rate for heart failure.
 
-```{r, message=FALSE, warning=FALSE}
 
+```r
 # define function
 rankhospital <- function(state, outcome, num = "best") {
   
@@ -159,15 +175,42 @@ rankhospital <- function(state, outcome, num = "best") {
 
 # test function
 rankhospital("TX", `heart failure`, 4)
+```
+
+```
+## # A tibble: 1 x 1
+##                 hospital
+##                    <chr>
+## 1 DETAR HOSPITAL NAVARRO
+```
+
+```r
 rankhospital("MD", `heart attack`, "worst")
+```
+
+```
+## # A tibble: 1 x 1
+##                    hospital
+##                       <chr>
+## 1 HARFORD MEMORIAL HOSPITAL
+```
+
+```r
 rankhospital("MN", `heart attack`, 5000)
+```
+
+```
+## # A tibble: 1 x 1
+##   hospital
+##      <chr>
+## 1     <NA>
 ```
 
 
 ## Part 4: ranking hospitals in all states
 
-```{r, message=FALSE, warning=FALSE}
 
+```r
 # define function
 rankall <- function(outcome, num = "best"){
   
@@ -216,9 +259,58 @@ rankall <- function(outcome, num = "best"){
 
 # test function
 rankall(`heart attack`, 20)
+```
+
+```
+## # A tibble: 54 x 2
+##                               hospital State
+##                                  <chr> <chr>
+##  1                                <NA>    AK
+##  2      D W MCMILLAN MEMORIAL HOSPITAL    AL
+##  3   ARKANSAS METHODIST MEDICAL CENTER    AR
+##  4 JOHN C LINCOLN DEER VALLEY HOSPITAL    AZ
+##  5               SHERMAN OAKS HOSPITAL    CA
+##  6            SKY RIDGE MEDICAL CENTER    CO
+##  7             MIDSTATE MEDICAL CENTER    CT
+##  8                                <NA>    DC
+##  9                                <NA>    DE
+## 10      SOUTH FLORIDA BAPTIST HOSPITAL    FL
+## # ... with 44 more rows
+```
+
+```r
 tail(rankall(pneumonia, "worst"), 3) 
+```
+
+```
+## # A tibble: 3 x 2
+##                                     hospital State
+##                                        <chr> <chr>
+## 1 MAYO CLINIC HEALTH SYSTEM - NORTHLAND, INC    WI
+## 2                     PLATEAU MEDICAL CENTER    WV
+## 3           NORTH BIG HORN HOSPITAL DISTRICT    WY
+```
+
+```r
 tail(rankall(`heart failure`), 10)
 ```
+
+```
+## # A tibble: 10 x 2
+##                                                             hospital State
+##                                                                <chr> <chr>
+##  1                         WELLMONT HAWKINS COUNTY MEMORIAL HOSPITAL    TN
+##  2                                        FORT DUNCAN MEDICAL CENTER    TX
+##  3 VA SALT LAKE CITY HEALTHCARE - GEORGE E. WAHLEN VA MEDICAL CENTER    UT
+##  4                                          SENTARA POTOMAC HOSPITAL    VA
+##  5                            GOV JUAN F LUIS HOSPITAL & MEDICAL CTR    VI
+##  6                                              SPRINGFIELD HOSPITAL    VT
+##  7                                         HARBORVIEW MEDICAL CENTER    WA
+##  8                                    AURORA ST LUKES MEDICAL CENTER    WI
+##  9                                         FAIRMONT GENERAL HOSPITAL    WV
+## 10                                        CHEYENNE VA MEDICAL CENTER    WY
+```
+
 
 
 
